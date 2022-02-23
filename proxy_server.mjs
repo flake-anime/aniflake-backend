@@ -28,15 +28,21 @@ app.get('/get_streaming_links', async (req, res) => {
     }
     const dpage_url = await anicli.get_dpage_link(anime_id, episode_number)
     const links = await anicli.decrypt_link(dpage_url)
-    res.send(links)
+    const data = {
+        links: links,
+        dpage_url: dpage_url
+    }
+    res.send(data)
 })
 
 app.get("/stream", (req, res) => {
-    const url = "https://vidstreamingcdn.com/cdn39/0d543bf02da287fef64fe8cb74d61071/EP.1.v1.1641940502.360p.mp4?mac=pM35Xy%2FLFSY7NvOKdn6mM0fKkRLbKi3gaWogUHQlft0%3D&vip=202.142.79.138&expiry=1645636407356"
+    const url = req.query.url
+    const referer = req.query.referer
+
     res.setHeader('Content-Type', 'video/mp4');
     got.stream(url, {
         headers: {
-            "referer": "https://gogoplay.io/download?id=MTgxMTk4&typesub=Gogoanime-SUB&title=Kenja+no+Deshi+wo+Nanoru+Kenja+Episode+7",
+            "referer": referer,
         }
     }).pipe(res);
 })
