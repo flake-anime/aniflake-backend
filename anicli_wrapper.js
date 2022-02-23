@@ -1,3 +1,4 @@
+const { link } = require('fs');
 const { promisify } = require('util');
 const exec = promisify(require('child_process').exec);
 
@@ -10,9 +11,16 @@ class AnicliWrapper {
     }
     async decrypt_link(dpage_url) {
         let links
-        links = await exec("sh anicli/decrypt_link.sh " + dpage_url);
+        links = await exec("sh anicli/decrypt_link.sh \"" + dpage_url + "\"");
         links = links.stdout.split("\n");
-        return links;
+        links.pop()
+        
+        let filtered_link = []
+        links.forEach(link => {
+            filtered_link.push(link.replace("\n", ""))
+        })
+
+        return filtered_link;
     }
     async total_episodes(anime_id) {
         let total_episodes
@@ -28,4 +36,4 @@ class AnicliWrapper {
     } 
 }
 
-module.export.AnicliWrapper = AnicliWrapper;
+module.exports = AnicliWrapper;
