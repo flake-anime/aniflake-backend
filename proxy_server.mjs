@@ -21,13 +21,13 @@ app.get('/player', function(req, res) {
 
 app.get('/get_streaming_sources', async (req, res) => {
     const anime_id = req.query.anime_id
-    const episode_number = req.query.eps_number || 1
+    const eps_number = req.query.eps_number || 1
     if(anime_id == undefined) {
         res.send("Error: anime_id is undefined")
         return
     }
 
-    const dpage_url = await anicli.get_dpage_link(anime_id, episode_number)
+    const dpage_url = await anicli.get_dpage_link(anime_id, eps_number)
     const links = await anicli.decrypt_link(dpage_url)
 
     let sources = []

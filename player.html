@@ -23,8 +23,12 @@
         <video controls crossorigin playsinline></video>
     </div>
     <script>
+        const url = new URL(window.location)
+        const anime_id = url.searchParams.get('anime_id')
+        const eps_number = url.searchParams.get('eps_number') || 1
+
         const player = new Plyr('video', {captions: {active: true}});
-        $.get("/get_streaming_sources?anime_id=kenja-no-deshi-wo-nanoru-kenja", (data, status) => {
+        $.get(`/get_streaming_sources?anime_id=${anime_id}&eps_number=${eps_number}`, (data, status) => {
             player.source = {
                 type: 'video',
                 sources: data
