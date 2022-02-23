@@ -2,32 +2,29 @@ const { promisify } = require('util');
 const exec = promisify(require('child_process').exec);
 
 class AnicliWrapper {
-    get_qualities(dpage_url) {
+    async get_qualities(dpage_url) {
+        let qualities
         qualities = await exec("sh anicli/get_video_qualities.sh " + dpage_url);
         qualities = qualities.stdout.split("\n");
         return qualities;
     }
-    decrypt_link(dpage_url) {
+    async decrypt_link(dpage_url) {
+        let links
         links = await exec("sh anicli/decrypt_link.sh " + dpage_url);
         links = links.stdout.split("\n");
         return links;
     }
-}
-
-async function get_qualities(dpage_url) {
-    qualities = await exec("sh anicli/get_video_qualities.sh " + dpage_url);
-    qualities = qualities.stdout.split("\n");
-    return qualities;
-}
-
-async function decrypt_link(dpage_url) {
-    links = await exec("sh anicli/decrypt_link.sh " + dpage_url);
-    links = links.stdout.split("\n");
-    return links;
+    async total_episodes(anime_id) {
+        let total_episodes
+        total_episodes = await exec("sh anicli/total_episodes.sh " + anime_id);
+        total_episodes = total_episodes.stdout.replace("\n", "");
+        return total_episodes;
+    }    
 }
 
 (async function() {
-    const dpage_url = "https://gogoplay.io/download?id=MTgxMTk4&typesub=Gogoanime-SUB&title=Kenja+no+Deshi+wo+Nanoru+Kenja+Episode+7";
-    const links = await decrypt_link(dpage_url);
-    console.log(links);
+    const anicli = new AnicliWrapper();
+    const anime_id = "fantasy-bishoujo-juniku-ojisan-to"
+    const total_episodes = await anicli.total_episodes(anime_id);
+    console.log(total_episodes);
 })();
