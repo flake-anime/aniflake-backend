@@ -1,4 +1,3 @@
-from click import progressbar
 import requests
 import subprocess
 

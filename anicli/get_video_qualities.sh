@@ -39,4 +39,4 @@ get_video_quality() {
 }
 
 dpage_link="$1"
-decrypt_link "$dpage_link"
+get_video_quality "$dpage_link"
