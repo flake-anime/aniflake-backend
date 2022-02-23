@@ -1,10 +1,8 @@
 import express from "express"
 import cors from "cors"
-import stream from "stream"
 import got from "got"
 import AnicliWrapper from "./anicli_wrapper.mjs"
 import path, { dirname } from 'path';
-import { Transform } from "stream"
 import { fileURLToPath } from "url"
 
 const port = process.env.PORT || 3000
@@ -50,11 +48,7 @@ app.get("/stream", (req, res) => {
     const referer = req.query.referer
 
     res.setHeader('Content-Type', 'video/mp4');
-    got.stream(url, {
-        headers: {
-            "referer": referer,
-        }
-    }).pipe(res);
+    got.stream(url, { headers: { "referer": referer }}).pipe(res);
 })
 
 app.listen(port, () => {
