@@ -28,10 +28,4 @@ class AnicliWrapper {
     } 
 }
 
-(async function() {
-    const anicli = new AnicliWrapper();
-    const anime_id = "fantasy-bishoujo-juniku-ojisan-to"
-    const episode_number = 1
-    const get_dpage_link = await anicli.get_dpage_link(anime_id, episode_number);
-    console.log(get_dpage_link);
-})();
+module.export.AnicliWrapper = AnicliWrapper;
