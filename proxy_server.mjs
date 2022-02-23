@@ -1,15 +1,16 @@
-const express = require("express")
-const cors = require("cors")
-const stream = require("stream")
-const { Transform } = require("stream")
-const AnicliWrapper = require("./anicli_wrapper")
+import express from "express"
+import cors from "cors"
+import stream from "stream"
+import AnicliWrapper from "./anicli_wrapper.mjs"
+import path, { dirname } from 'path';
+import { Transform } from "stream"
+import { fileURLToPath } from "url"
 
 const port = process.env.PORT || 3000
 const app = express()
+app.use(cors())
 
 const anicli = new AnicliWrapper()
-
-app.use(cors())
 
 app.get('/get_streaming_links', async (req, res) => {
     const anime_id = req.query.anime_id
@@ -22,6 +23,12 @@ app.get('/get_streaming_links', async (req, res) => {
     const links = await anicli.decrypt_link(dpage_url)
     res.send(links)
 })
+
+app.get('/player', function(req, res) {
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = dirname(__filename);
+    res.sendFile(path.join(__dirname, '/player.html'));
+});
 
 app.listen(port, () => {
     console.log(`Proxy server running on port ${port}`)

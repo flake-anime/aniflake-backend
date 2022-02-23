@@ -1,6 +1,7 @@
-const { link } = require('fs');
-const { promisify } = require('util');
-const exec = promisify(require('child_process').exec);
+import { link } from "fs";
+import { promisify } from "util";
+import { exec as exec_raw } from "child_process";
+const exec = promisify(exec_raw);
 
 class AnicliWrapper {
     async get_qualities(dpage_url) {
@@ -14,7 +15,7 @@ class AnicliWrapper {
         links = await exec("sh anicli/decrypt_link.sh \"" + dpage_url + "\"");
         links = links.stdout.split("\n");
         links.pop()
-        
+
         let filtered_link = []
         links.forEach(link => {
             filtered_link.push(link.replace("\n", ""))
@@ -36,4 +37,4 @@ class AnicliWrapper {
     } 
 }
 
-module.exports = AnicliWrapper;
+export default AnicliWrapper;

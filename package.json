@@ -4,7 +4,7 @@
   "description": "",
   "main": "proxy_server.js",
   "scripts": {
-    "start": "nodemon proxy_server.js",
+    "start": "nodemon proxy_server.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
