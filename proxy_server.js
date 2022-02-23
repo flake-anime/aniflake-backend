@@ -19,12 +19,19 @@ class AnicliWrapper {
         total_episodes = await exec("sh anicli/total_episodes.sh " + anime_id);
         total_episodes = total_episodes.stdout.replace("\n", "");
         return total_episodes;
-    }    
+    }
+    async get_dpage_link(anime_id, episode_number) {
+        let dpage_link
+        dpage_link = await exec("sh anicli/get_dpage_link.sh " + anime_id + " " + episode_number);
+        dpage_link = dpage_link.stdout.replace("\n", "");
+        return dpage_link;
+    } 
 }
 
 (async function() {
     const anicli = new AnicliWrapper();
     const anime_id = "fantasy-bishoujo-juniku-ojisan-to"
-    const total_episodes = await anicli.total_episodes(anime_id);
-    console.log(total_episodes);
+    const episode_number = 1
+    const get_dpage_link = await anicli.get_dpage_link(anime_id, episode_number);
+    console.log(get_dpage_link);
 })();
