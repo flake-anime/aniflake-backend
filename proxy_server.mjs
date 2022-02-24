@@ -51,6 +51,26 @@ app.get("/stream", (req, res) => {
     got.stream(url, { headers: { "referer": referer }}).pipe(res);
 })
 
+app.get("/search", async (req, res) => {
+    const anime_name = req.query.anime_name
+    if(anime_name == undefined) {
+        res.send("Error: anime_name is undefined")
+        return
+    }
+    const results = []
+    const result_anime_ids = await anicli.search_anime(anime_name)
+    const promises = result_anime_ids.map(async anime_id => {
+        const total_episodes = await anicli.total_episodes(anime_id)
+        const result = {
+            anime_id: anime_id,
+            total_episodes: total_episodes
+        }
+        results.push(result)
+    });
+    await Promise.all(promises)
+    res.send(results)
+})
+
 app.listen(port, () => {
     console.log(`Proxy server running on port ${port}`)
 })

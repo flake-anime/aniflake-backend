@@ -35,6 +35,19 @@ class AnicliWrapper {
         dpage_link = dpage_link.stdout.replace("\n", "");
         return dpage_link;
     } 
+    async search_anime(anime_name) {
+        let search_result
+        search_result = await exec("sh anicli/search_anime.sh \"" + anime_name + "\"");
+        search_result = search_result.stdout.split("\n");
+        search_result.pop()
+
+        let filtered_result = []
+        search_result.forEach(result => {
+            filtered_result.push(result.replace("\n", ""))
+        })
+        
+        return search_result;
+    }
 }
 
 export default AnicliWrapper;
