@@ -24,10 +24,8 @@ app.get('/get_streaming_sources', async (req, res) => {
         res.send("Error: anime_id is undefined")
         return
     }
-
     const dpage_url = await anicli.get_dpage_link(anime_id, eps_number)
     const links = await anicli.decrypt_link(dpage_url)
-
     let sources = []
     links.forEach(link => {
         const quality_extrator_regex = /.(\d+)p.mp4/
@@ -39,14 +37,12 @@ app.get('/get_streaming_sources', async (req, res) => {
             size: quality
         })
     })
-
     res.send(sources)
 })
 
 app.get("/stream", (req, res) => {
     const url = req.query.url
     const referer = req.query.referer
-
     res.setHeader('Content-Type', 'video/mp4');
     got.stream(url, { headers: { "referer": referer }}).pipe(res);
 })
