@@ -29,5 +29,4 @@ class GoGoAnimeScraper {
     }
 }
 
-const scraper = new GoGoAnimeScraper("https://gogoanime.fi");
-scraper.search_anime("Naruto").then(console.log);
+export default GoGoAnimeScraper;

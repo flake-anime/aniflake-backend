@@ -4,12 +4,15 @@ import got from "got"
 import AnicliWrapper from "./engine/anicli_wrapper.mjs"
 import path, { dirname } from 'path';
 import { fileURLToPath } from "url"
+import GoGoAnimeScraper from "./engine/gogoanime_scraper.mjs"
 
 const port = process.env.PORT || 3000
 const app = express()
 app.use(cors())
 
+const base_url = "https://gogoanime.fi"
 const anicli = new AnicliWrapper()
+const crawler = new GoGoAnimeScraper(base_url)
 
 app.get('/player', function(req, res) {
     const __filename = fileURLToPath(import.meta.url);
@@ -49,21 +52,7 @@ app.get("/stream", (req, res) => {
 
 app.get("/search", async (req, res) => {
     const anime_name = req.query.anime_name
-    if(anime_name == undefined) {
-        res.send("Error: anime_name is undefined")
-        return
-    }
-    const results = []
-    const result_anime_ids = await anicli.search_anime(anime_name)
-    const promises = result_anime_ids.map(async anime_id => {
-        const total_episodes = await anicli.total_episodes(anime_id)
-        const result = {
-            anime_id: anime_id,
-            total_episodes: total_episodes
-        }
-        results.push(result)
-    });
-    await Promise.all(promises)
+    const results = await crawler.search_anime(anime_name)
     res.send(results)
 })
 
