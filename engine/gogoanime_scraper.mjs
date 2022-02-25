@@ -5,7 +5,6 @@ class GoGoAnimeScraper {
     constructor(base_url) {
         this.base_url = base_url;
     }
-
     async search_anime(anime_name) {
         const search_result = await axios.get(this.base_url + "/search.html?keyword=" + anime_name);
         const $ = cheerio.load(search_result.data);
@@ -24,6 +23,9 @@ class GoGoAnimeScraper {
             results.push(result);
         })
         return results;
+    }
+    async get_anime_detail(anime_id) {
+        const anime_page = await axios.get(this.base_url + "/" + anime_id);
     }
 }
 
