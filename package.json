@@ -4,12 +4,14 @@
   "description": "",
   "main": "proxy_server.js",
   "scripts": {
-    "start": "nodemon proxy_server.mjs",
+    "start": "nodemon wsgi.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.26.0",
+    "cheerio": "^1.0.0-rc.10",
     "cors": "^2.8.5",
     "express": "^4.17.3",
     "got": "^12.0.1",

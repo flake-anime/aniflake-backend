@@ -1,4 +1,3 @@
-import { link } from "fs";
 import { promisify } from "util";
 import { exec as exec_raw } from "child_process";
 const exec = promisify(exec_raw);

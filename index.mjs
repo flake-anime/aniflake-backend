@@ -1,7 +1,7 @@
 import express from "express"
 import cors from "cors"
 import got from "got"
-import AnicliWrapper from "./anicli_wrapper.mjs"
+import AnicliWrapper from "./engine/anicli_wrapper.mjs"
 import path, { dirname } from 'path';
 import { fileURLToPath } from "url"
 
