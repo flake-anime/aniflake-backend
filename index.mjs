@@ -52,8 +52,29 @@ app.get("/stream", (req, res) => {
 
 app.get("/search", async (req, res) => {
     const anime_name = req.query.anime_name
+    if (anime_name == undefined) {
+        res.send("Error: anime_name is undefined")
+        return
+    }
     const results = await crawler.search_anime(anime_name)
     res.send(results)
+})
+
+app.get("/anime_detail", async (req, res) => {
+    const anime_id = req.query.anime_id
+    if (anime_id == undefined) {
+        res.send("Error: anime_id is undefined")
+        return
+    }
+
+    const total_episodes = await anicli.total_episodes(anime_id)
+    let anime_detail = await crawler.get_anime_detail(anime_id)
+    anime_detail = {
+        ...anime_detail,
+        total_episodes : total_episodes
+    }
+
+    res.send(anime_detail)
 })
 
 app.listen(port, () => {
