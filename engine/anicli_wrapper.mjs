@@ -3,12 +3,6 @@ import { exec as exec_raw } from "child_process";
 const exec = promisify(exec_raw);
 
 class AnicliWrapper {
-    async get_qualities(dpage_url) {
-        let qualities
-        qualities = await exec("sh anicli/get_video_qualities.sh " + dpage_url);
-        qualities = qualities.stdout.split("\n");
-        return qualities;
-    }
     async decrypt_link(dpage_url) {
         let links
         links = await exec("sh anicli/decrypt_link.sh \"" + dpage_url + "\"");
